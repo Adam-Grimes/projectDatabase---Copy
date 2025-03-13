@@ -15,6 +15,14 @@ router.post('/', async (req, res) => {
         });
     }
 
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(EmailAddress)) {
+        return res.status(400).json({ 
+            error: "Invalid email address format" 
+        });
+    }
+
     try {
         const counterRef = db.collection('counters').doc('Booking');
         let newBookingID;
@@ -91,6 +99,16 @@ router.put('/:bookingID', async (req, res) => {
         return res.status(400).json({ 
             error: "At least one field is required for update: NoOfSeats, Cost, EmailAddress" 
         });
+    }
+
+    // Validate email format if EmailAddress is provided
+    if (EmailAddress) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(EmailAddress)) {
+            return res.status(400).json({ 
+                error: "Invalid email address format" 
+            });
+        }
     }
 
     try {

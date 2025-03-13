@@ -109,6 +109,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const email = prompt("Please enter your email address:");
     if (!email) return;
 
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
     // Validate seat availability before proceeding
     fetch(`/api/Ticket?ScreeningID=${screeningId}`)
       .then(res => {
